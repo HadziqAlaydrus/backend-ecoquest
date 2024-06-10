@@ -67,9 +67,20 @@ const getFormById = async (req,res) => {
     }
 }
 
+const updateStatus =async(req,res)=>{
+    try{
+        const {id} = req.params;
+        res.status(200).send("Status update succesfully");
+
+    }catch(error){
+        res.status(400).send('Internal server Error');
+    }
+}
+
 module.exports = {
     getPickUp,
     createForm,
     deletedFormById,
-    getFormById
+    getFormById,
+    updateStatus
 }
