@@ -73,7 +73,10 @@ const updateStatus = async (req, res) => {
         const { id } = req.params;
         const { status } = req.body;
 
+        console.log(`Received request to update status for ID: ${id} to ${status}`);
+
         if (!['Belum Diambil', 'Sudah Diambil'].includes(status)) {
+            console.error('Invalid status value');
             return res.status(400).send('Invalid status value');
         }
 
@@ -84,7 +87,7 @@ const updateStatus = async (req, res) => {
             res.status(404).send("Form Not Found");
         }
     } catch (error) {
-        console.error(error);
+        console.error('Error updating status:', error);
         res.status(500).send('Internal server error');
     }
 };
