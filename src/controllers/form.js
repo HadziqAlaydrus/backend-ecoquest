@@ -13,7 +13,8 @@ const getPickUp = async (req, res) => {
         const result = await db.query('SELECT * FROM pickup');
         const formattedData = result.rows.map(item => ({
             ...item,
-            tanggal_pengambilan: formatDate(item.tanggal_pengambilan)
+            tanggal_pengambilan: formatDate(item.tanggal_pengambilan),
+            status: item.status || "Belum Diambil"
         }));
         res.status(200).json(formattedData);
     } catch (error) {
@@ -70,9 +71,12 @@ const getFormById = async (req,res) => {
 const updateStatus =async(req,res)=>{
     try{
         const {id} = req.params;
+        const {status} = req.body;
+        await db.query('UPDATE pickup set status = $1 where id =$2', [status, id]);
         res.status(200).send("Status update succesfully");
 
     }catch(error){
+        console.error(error);
         res.status(400).send('Internal server Error');
     }
 }

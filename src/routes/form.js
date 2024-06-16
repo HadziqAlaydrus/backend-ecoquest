@@ -13,7 +13,7 @@ router.get('/pickup', getPickUp);
 router.post('/pickup', createForm);
 router.delete('/pickup/:id', deletedFormById);
 router.get('/pickup/:id', getFormById);
-router.put('/pickup/:id/status',updateStatus);
+router.patch('/pickup/:id/status',updateStatus);
 
 
 
