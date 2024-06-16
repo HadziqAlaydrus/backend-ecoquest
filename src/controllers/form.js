@@ -68,18 +68,26 @@ const getFormById = async (req,res) => {
     }
 }
 
-const updateStatus =async(req,res)=>{
-    try{
-        const {id} = req.params;
-        const {status} = req.body;
-        await db.query('UPDATE pickup set status = $1 where id =$2', [status, id]);
-        res.status(200).send("Status update succesfully");
+const updateStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
 
-    }catch(error){
+        if (!['Belum Diambil', 'Sudah Diambil'].includes(status)) {
+            return res.status(400).send('Invalid status value');
+        }
+
+        const result = await db.query('UPDATE pickup SET status = $1 WHERE id = $2', [status, id]);
+        if (result.rowCount > 0) {
+            res.status(200).send("Status updated successfully");
+        } else {
+            res.status(404).send("Form Not Found");
+        }
+    } catch (error) {
         console.error(error);
-        res.status(400).send('Internal server Error');
+        res.status(500).send('Internal server error');
     }
-}
+};
 
 module.exports = {
     getPickUp,
