@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const userRoutes = require("./routes/form"); // Tidak menggunakan destrukturisasi
 const bodyParser = require('body-parser');
+const { application } = require("express");
 require("dotenv").config();
 
 const app = express();
@@ -14,6 +15,10 @@ app.use(bodyParser.json());
 
 // Menggunakan router untuk menangani rute terkait pengguna
 app.use('/', userRoutes);
+
+app.get('/', (req,res)=>{
+    res.send("Welcome to Ecoquest API")
+})
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`); // Menggunakan backticks untuk template string
